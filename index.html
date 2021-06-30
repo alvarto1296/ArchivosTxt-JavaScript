@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>INF-330 Maquina Turing</title>
+</head>
+<body>
+    Seleccione el archivo a decodificar
+    <input type="file" id="archivotexto">
+    <p id="mensajes"></p>
+    <textarea id="contenido" cols="30" rows="10"></textarea>
+    <script>
+
+        function abrirArchivo(evento){
+            let archivo = event.target.files[0];
+            if(archivo){
+                let reader = new FileReader();
+                reader.onload = function(e){
+                    let contenido = e.target.result;
+                    //codigo 
+                     console.log(contenido);
+
+                    document.getElementById('contenido').innerText = contenido;
+                }
+
+            reader.readAsText(archivo);
+            }else{
+                document.getElementById('mensajes').innerText='no se ha seleccionado';
+            }
+        }
+        window.addEventListener('load',()=>{
+            document.getElementById('archivotexto').addEventListener('change',abrirArchivo);
+        });
+    </script>
+</body>
+</html>
