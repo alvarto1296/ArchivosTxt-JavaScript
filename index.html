@@ -10,7 +10,7 @@
     Seleccione el archivo a decodificar
     <input type="file" id="archivotexto">
     <p id="mensajes"></p>
-    <textarea id="contenido" cols="30" rows="10"></textarea>
+    <textarea id="contenido" cols="9" rows="10"></textarea>
     <script>
 
         function abrirArchivo(evento){
@@ -20,8 +20,50 @@
                 reader.onload = function(e){
                     let contenido = e.target.result;
                     //codigo 
-                     console.log(contenido);
+                     //console.log(contenido);
+                     function multiple(valor, multiple)
+                        {
+                            resto = valor % multiple;
+                            if(resto==0)
+                                return true;
+                            else
+                                return false;
+                        }
+                                    
+                   //var cinta = contenido.split("",8);
+                   cinta = Array.from(contenido);
+                    var inicial = contenido.substring(0,8);
+                    var inicialD= parseInt(inicial,2);
+                   // console.log(inicialD);
 
+                    id = new Array(100);
+                    valor = new Array(100);
+                    sig = new Array (100);
+                    var aux=0;
+                    for (let index = 1; index < contenido.length+1; index++) {
+                        aux=aux+8;
+                        id[index]= parseInt(contenido.substring(aux,aux+8),2);
+                        aux=aux+8
+                        valor[index]= String.fromCharCode(parseInt(contenido.substring(aux,aux+8),2));
+                        aux=aux+8;
+                        sig[index]= parseInt(contenido.substring(aux,aux+8),2);
+                    }
+                   
+                    
+                    var respuesta="";
+                    var sw = true;
+                   while(sig[inicialD]!= 0 ||  sw){
+                    
+                    respuesta=respuesta+valor[inicialD];
+                    inicialD= sig[inicialD];
+                    if(sig[inicialD]==0){
+                        sw=false;
+                        respuesta=respuesta+valor[inicialD];    
+                    }
+
+                   }
+
+                 console.log(respuesta);
                     document.getElementById('contenido').innerText = contenido;
                 }
 
